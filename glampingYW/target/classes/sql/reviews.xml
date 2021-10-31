@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="reviews">
+ 
+ 	<!-- 별점평균 구하기 -->
+	<select id="getstaravg" parameterType="int" resultType="double">
+	select nvl(avg(rev_star),0) from review where pro_no = #{pro_no}
+	</select>
+ 	
+ 	<!-- 리뷰수 구하기 -->
+ 	<select id="getrevcount" parameterType="int" resultType="int">
+ 	select count(rev_no) from review where pro_no = #{pro_no}
+ 	</select>
+ 	
+ 	<!-- 리뷰리스트 구하기 -->
+ 	<select id="getrevlist" parameterType="int" resultType="review">
+ 	select * from review where pro_no = #{pro_no} order by rev_date desc
+ 	</select>
+ 	
+ 	<!-- 내 리뷰리스트 구하기(insert용) -->
+	<select id="getmyrevlist" parameterType="review" resultType="review">
+    select * from review where mem_id=#{mem_id} and pro_no=#{pro_no}
+    </select>
+ 	
+ 	<!-- 리뷰입력 -->
+	<insert id="reviewinsertdo" parameterType="review">
+	insert into review(rev_no,mem_id,rev_con,rev_date,rev_star,pro_no,res_no)
+	values(review_seq1.nextval, #{mem_id}, #{rev_con}, sysdate, #{rev_star}, #{pro_no}, #{res_no})
+	</insert>
+ 	
+ 	<!-- 리뷰수정 -->
+	<update id="reviewupdatedo" parameterType="review">
+	update review set rev_star=#{rev_star}, rev_con=#{rev_con} where rev_no=#{rev_no}	
+	</update>
+ 	
+ 	<!-- 리뷰삭제 -->
+ 	<select id="deletereview" parameterType="int">
+ 	delete from review where rev_no = #{rev_no}
+ 	</select>
+ 	
+ 	<!-- 내리뷰 찾기 -->
+ 	<select id="researchreviewdo" parameterType="review" resultType="review">
+ 	select * from review where rev_no = (select max(rev_no) from review where mem_id = #{mem_id} and pro_no = #{pro_no})
+ 	</select>
+ 	
+ 	<!-- 리뷰삭제 -->
+ 	<select id="terminate_review" parameterType="int">
+ 	delete from review where res_no = #{res_no}
+ 	</select>
+ 	
+ 	<!--상품삭제시 리뷰삭제 -->
+ 	<select id="delete_proreview" parameterType="int">
+ 	delete from review where pro_no = #{pro_no}
+ 	</select>
+ 	
+ 	
+	<!-- 상세 페이지 -->
+	<!-- 1. 상품 데이터 리스트 -->
+	<select id="list" parameterType="int" resultType="review">
+		select * from
+		review where pro_no = #{pro_no} order by rev_date desc
+	</select>
+
+	<!-- 2. 총 데이터 수 -->
+	<select id="gettotal" parameterType="int" resultType="int">
+		select
+		count(*) from review where pro_no = #{pro_no}
+	</select>
+	
+</mapper>

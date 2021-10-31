@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="member" type="model.Member" />
+		<typeAlias alias="notice" type="model.Notice" />
+		<typeAlias alias="pphoto" type="model.PPhoto" />
+		<typeAlias alias="product" type="model.Product" />
+		<typeAlias alias="qna" type="model.QnA" />
+		<typeAlias alias="reservation" type="model.Reservation" />
+		<typeAlias alias="review" type="model.Review" />
+		<typeAlias alias="room" type="model.Room" />
+		<typeAlias alias="rphoto" type="model.RPhoto" />
+		<typeAlias alias="seller" type="model.Seller" />
+	</typeAliases>
+
+</configuration>

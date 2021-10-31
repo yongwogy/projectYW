@@ -1,0 +1,27 @@
+.wids{
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.colum_title{
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.adbt-deco{
+	color: white;
+	background: #008000;
+	border-radius: 10px;
+}
+
+.adbt-deco1{
+	color: white;
+	background: red;
+	border-radius: 10px;
+}
+
+.adbt-deco2{
+	color: white;
+	background: #800080;
+	border-radius: 10px;
+}

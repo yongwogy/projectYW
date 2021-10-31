@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="products">
+ 
+	<!-- 상품등록신청 -->
+	<insert id="proinsertdo" parameterType="product">
+	insert into product(pro_no,sel_id,pro_ceo,pro_name,pro_post,pro_addr,pro_n1,pro_n2,pro_x,pro_y,pro_con,pro_pic,pro_intro,pro_app,pro_joind,pro_s) 
+	values(product_seq1.nextval, #{sel_id}, #{pro_ceo}, #{pro_name}, #{pro_post}, #{pro_addr}, #{pro_n1}, #{pro_n2}, #{pro_x}, #{pro_y}, #{pro_con}, 
+	#{pro_pic}, #{pro_intro}, sysdate, null, 0)
+	</insert>
+ 	
+ 	<!-- 등록시점 pro_no 구하기 -->
+ 	<select id="proload" parameterType="String" resultType="product">
+ 	select * from product where pro_no = (select max(pro_no) from product where sel_id = #{sel_id})
+ 	</select>
+ 	
+ 	<!-- 리스트 구하기 -->
+ 	<select id="getprolist" parameterType="String" resultType="product">
+ 	select * from product where sel_id = #{sel_id} order by pro_no asc
+ 	</select>
+ 	
+ 	<!-- product 상세정보 구하기 구하기 -->
+ 	<select id="getprodetail" parameterType="int" resultType="product">
+ 	select * from product where pro_no = #{pro_no}
+ 	</select>
+ 	
+ 	<!-- product 수정 -->
+ 	<update id="proupdate" parameterType="product">
+ 	update Product set pro_ceo = #{pro_ceo},pro_name = #{pro_name},pro_post = #{pro_post},pro_addr = #{pro_addr},pro_n1 = #{pro_n1},pro_n2 = #{pro_n2},
+ 	pro_x = #{pro_x},pro_y = #{pro_y},pro_con = #{pro_con},pro_pic = #{pro_pic},pro_intro = #{pro_intro} where pro_no = #{pro_no}
+ 	</update>
+ 	
+ 	<!-- 상품삭제 -->
+	<insert id="deletepro" parameterType="int">
+	delete from product where pro_no = #{pro_no}
+	</insert>
+ 	
+ 	<!-- 상품다시제출 pro_s 2를 0로 -->
+ 	<update id="resubmitpro_s" parameterType="int">
+ 	update Product set pro_s = 0 where pro_no = #{pro_no}
+ 	</update>
+ 	
+ 	
+ 	
+ 		<!-- join resultMap -->
+	<resultMap type="room" id="roomResult">
+		<result column="rm_no" property="rm_no" />
+		<result column="rm_pno" property="rm_pno" />
+		<result column="rm_rno" property="rm_rno" />
+	</resultMap>
+
+	<resultMap type="product" id="productResult">
+		<result column="pro_no" property="pro_no" />
+		<result column="sel_id" property="sel_id" />
+		<result column="pro_ceo" property="pro_ceo" />
+		<result column="pro_name" property="pro_name" />
+		<result column="pro_post" property="pro_post" />
+		<result column="pro_addr" property="pro_addr" />
+		<result column="pro_n1" property="pro_n1" />
+		<result column="pro_n2" property="pro_n2" />
+		<result column="pro_x" property="pro_x" />
+		<result column="pro_y" property="pro_y" />
+		<result column="pro_con" property="pro_con" />
+		<result column="pro_pic" property="pro_pic" />
+		<result column="pro_intro" property="pro_intro" />
+		<result column="pro_app" property="pro_app" />
+		<result column="pro_con" property="pro_con" />
+		<result column="pro_joind" property="pro_joind" />
+		<result column="pro_s" property="pro_s" />
+		<collection property="roomR" resultMap="roomResult" />
+	</resultMap>
+	<!-- 검색 및 목록 페이지 -->
+	<!-- 1. 데이터 검색(조건: 지역, 인원수) -->
+	<select id="list" parameterType="product"
+		resultMap="productResult">
+		select * from (select a.*,rowNum rn from (
+		<if test="cap > 0 and cap != null">
+			select p.*, r.rm_no ,r.rm_rno, r.rm_pno from product p join room r on
+			p.pro_no = r.pro_no
+			<where>
+				<if test="keyword != null and region=='all'">
+					pro_name like '%'||#{keyword}||'%' or
+					pro_addr like '%'||#{keyword}||'%'
+				</if>
+				<if test="keyword != null and region!='all' and region != null">
+					pro_addr like '%'||#{region}||'%' and
+					pro_addr like '%'||#{keyword}||'%' or
+					pro_name like '%'||#{keyword}||'%'
+				</if>
+				<if test="keyword == null and region!='all' and region != null">
+					pro_addr like '%'||#{region}||'%'
+				</if>
+			</where>
+			and <![CDATA[rm_pno >= #{cap, jdbcType=INTEGER}]]>
+		</if>
+		<if test="cap == 0 and checkIn != null and checkOut != null">
+			select p.*, r.rm_no ,r.rm_rno, r.rm_pno from product p join room r on
+			p.pro_no = r.pro_no
+			<where>
+				<if test="keyword != null and region=='all'">
+					pro_name like '%'||#{keyword}||'%' or
+					pro_addr like '%'||#{keyword}||'%'
+				</if>
+				<if test="keyword != null and region!='all' and region != null">
+					pro_addr like '%'||#{region}||'%' and
+					pro_addr like '%'||#{keyword}||'%' or
+					pro_name like '%'||#{keyword}||'%'
+				</if>
+				<if test="keyword == null and region!='all' and region != null">
+					pro_addr like '%'||#{region}||'%'
+				</if>
+			</where>
+		</if>
+		<if test="cap == 0 and checkIn == null and checkOut == null">
+			select * from product
+			<where>
+				<if test="keyword != null and region=='all'">
+					pro_name like '%'||#{keyword}||'%' or
+					pro_addr like '%'||#{keyword}||'%'
+				</if>
+				<if test="keyword != null and region!='all' and region != null">
+					pro_addr like '%'||#{region}||'%' and
+					pro_addr like '%'||#{keyword}||'%' or
+					pro_name like '%'||#{keyword}||'%'
+				</if>
+				<if test="keyword == null and region!='all' and region != null">
+					pro_addr like '%'||#{region}||'%'
+				</if>
+			</where>
+		</if>
+		order by pro_joind desc) a )
+		where rn between #{startRow, jdbcType=INTEGER} and #{endRow,
+		jdbcType=INTEGER}
+	</select>
+
+	<!-- 2. 총 데이터 개수 -->
+	<select id="gettotal" parameterType="product" resultType="int">
+		select count(*) from (
+		<if test="cap > 0 and cap != null">
+			select p.*, r.rm_no ,r.rm_rno, r.rm_pno from product p join room r on
+			p.pro_no = r.pro_no
+			<where>
+				<if test="keyword != null and region=='all'">
+					pro_name like '%'||#{keyword}||'%' or
+					pro_addr like '%'||#{keyword}||'%'
+				</if>
+				<if test="keyword != null and region!='all' and region != null">
+					pro_addr like '%'||#{region}||'%' and
+					pro_addr like '%'||#{keyword}||'%' or
+					pro_name like '%'||#{keyword}||'%'
+				</if>
+				<if test="keyword == null and region!='all' and region != null">
+					pro_addr like '%'||#{region}||'%'
+				</if>
+			</where>
+			and <![CDATA[rm_pno >= #{cap, jdbcType=INTEGER}]]>
+		</if>
+		<if test="cap == 0 and checkIn != null and checkOut != null">
+			select p.*, r.rm_no ,r.rm_rno, r.rm_pno from product p join room r on
+			p.pro_no = r.pro_no
+			<where>
+				<if test="keyword != null and region=='all'">
+					pro_name like '%'||#{keyword}||'%' or
+					pro_addr like '%'||#{keyword}||'%'
+				</if>
+				<if test="keyword != null and region!='all' and region != null">
+					pro_addr like '%'||#{region}||'%' and
+					pro_addr like '%'||#{keyword}||'%' or
+					pro_name like '%'||#{keyword}||'%'
+				</if>
+				<if test="keyword == null and region!='all' and region != null">
+					pro_addr like '%'||#{region}||'%'
+				</if>
+			</where>
+		</if>
+		<if test="cap == 0 and checkIn == null and checkOut == null">
+			select * from product
+			<where>
+				<if test="keyword != null and region=='all'">
+					pro_name like '%'||#{keyword}||'%' or
+					pro_addr like '%'||#{keyword}||'%'
+				</if>
+				<if test="keyword != null and region!='all' and region != null">
+					pro_addr like '%'||#{region}||'%' and
+					pro_addr like '%'||#{keyword}||'%' or
+					pro_name like '%'||#{keyword}||'%'
+				</if>
+				<if test="keyword == null and region!='all' and region != null">
+					pro_addr like '%'||#{region}||'%'
+				</if>
+			</where>
+		</if>
+		)
+	</select>
+
+	<!-- 2. -->
+	<!-- <select id="list" parameterType="product" resultType="product"> select 
+		* from (select a.*,rowNum rn from ( select * from product <where> <if test="keyword 
+		!= null and region=='all'"> pro_name like '%'||#{keyword}||'%' or pro_addr 
+		like '%'||#{keyword}||'%' </if> <if test="keyword != null and region!='all'"> 
+		pro_addr like '%'||#{keyword}||'%' and pro_addr like '%'||#{keyword}||'%' 
+		or pro_name like '%'||#{keyword}||'%' </if> </where> order by pro_joind desc) 
+		a ) where rn between #{startRow} and #{endRow} </select> -->
+
+	<!-- 메인 페이지 -->
+	<!-- 1. 하단 일반 데이터 -->
+	<select id="listtop" parameterType="product"
+		resultType="product">
+		select * from (select * from product order by pro_joind desc) where <![CDATA[rownum <=5]]>
+	</select>
+
+	<!-- 2. 추천 목록 데이터 -->
+	<select id="listbest" parameterType="product"
+		resultType="product">
+		select * from product where pro_s = 3 order by pro_joind
+		desc
+	</select>
+
+
+	<!-- 상세 페이지 -->
+	<!-- 5. 1개 데이터 -->
+	<select id="select" parameterType="int" resultType="product">
+		select * from
+		product where pro_no = #{pro_no}
+	</select>
+ 	
+ 	
+</mapper>

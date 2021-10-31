@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberns">
+    
+    
+    <!-- 일반회원저장 -->
+    <insert id="join" parameterType="member">
+     insert into member(mem_id,mem_pw,mem_name,
+     mem_bir,mem_mail,mem_do,mem_p1,mem_p2,mem_p3,mem_post,
+     mem_gen,mem_joind,mem_g,mem_s,mem_pic,mem_addr1,mem_addr2) 
+     values(
+     #{mem_id},#{mem_pw},#{mem_name},
+     #{mem_bir},#{mem_mail},#{mem_do},#{mem_p1},
+     #{mem_p2},#{mem_p3},#{mem_post},#{mem_gen},sysdate,1,1,#{mem_pic,jdbcType=VARCHAR},#{mem_addr1},#{mem_addr2})
+    </insert>
+    
+    <!-- 로그인 인증 -->
+    <select id="login_check" parameterType="String" resultType="member">
+     select * from member where mem_id=#{id} and mem_g = 1 and mem_s = 1
+    </select>
+    <select id="login_check1" parameterType="String" resultType="seller">
+     select * from seller where sel_id=#{id} and sel_s = 1
+    </select>
+    
+    <!-- 예약시 판매자id 불가체크  -->
+    <select id="idcheck_nonsel" parameterType="String" resultType="seller">
+     select * from seller where sel_id=#{sel_id} and sel_s = 1
+    </select>
+    
+    <!-- 리뷰쓴유저찾기 -->
+    <select id="revuserfind" parameterType="String" resultType="member">
+     select * from member where mem_id=#{id}
+    </select>
+    <!-- 회원수정 -->
+    <update id="edit" parameterType="member">
+    update member set mem_pw=#{mem_pw},mem_name=#{mem_name},mem_bir=#{mem_bir},
+    mem_mail=#{mem_mail},mem_do=#{mem_do},mem_p1=#{mem_p1},
+    mem_p2=#{mem_p2},mem_p3=#{mem_p3},mem_post=#{mem_post},
+     mem_gen=#{mem_gen},mem_pic=#{mem_pic,jdbcType=VARCHAR},
+     mem_addr1=#{mem_addr1},mem_addr2=#{mem_addr2} where mem_id=#{mem_id}
+  
+    </update>
+    <!-- 회원수정 -->
+    <update id="edit1" parameterType="seller">
+    update seller set sel_pw=#{sel_pw},sel_name=#{sel_name},
+    sel_mail=#{sel_mail},sel_do=#{sel_do},sel_p1=#{sel_p1},
+    sel_p2=#{sel_p2},sel_p3=#{sel_p3},sel_post=#{sel_post},
+     sel_n1=#{sel_n1},sel_n2=#{sel_n2},sel_pic=#{sel_pic,jdbcType=VARCHAR},
+     sel_addr1=#{sel_addr1},sel_addr2=#{sel_addr2} where sel_id=#{sel_id}
+  
+    </update>
+    
+    <!-- 회원삭제 -->
+    <update id="member_delete" parameterType="member">
+      update member set mem_s=2 where mem_id=#{mem_id}
+    </update>
+    <update id="member_delete1" parameterType="seller">
+      update seller set sel_s=2 where sel_id=#{sel_id}
+    </update>
+    
+    <!-- 비번 검색 -->
+    <select id="pwfind" resultType="member" parameterType="member">
+     	select *  from member where mem_id=#{mem_id} and mem_mail=#{mem_mail} and mem_do=#{mem_do}
+    </select>
+    <select id="pwfind1" resultType="seller" parameterType="seller">
+     	select *  from seller where sel_id=#{sel_id} and sel_mail=#{sel_mail} and sel_do=#{sel_do}
+    </select>
+    <!-- 아이디 검색 -->
+    <select id="idfind1" resultType="member" parameterType="member">
+     	select *  from member where mem_name=#{mem_name} and mem_p1=#{mem_p1} and mem_p2=#{mem_p2} and mem_p3=#{mem_p3}
+    </select>
+    <select id="idfind2" resultType="seller" parameterType="seller">
+     	select *  from seller where sel_name=#{sel_name} and sel_p1=#{sel_p1} and sel_p2=#{sel_p2} and sel_p3=#{sel_p3}
+    </select>
+    
+    <!-- 판매자회원저장 -->
+    <insert id="join1" parameterType="seller">
+     insert into seller(sel_id,sel_pw,sel_name,
+     sel_mail,sel_do,sel_p1,sel_p2,sel_p3,sel_post,
+     sel_app,sel_joind,sel_n1,sel_n2,sel_s,sel_pic,sel_addr1,sel_addr2) 
+     values(
+     #{sel_id},#{sel_pw},#{sel_name},
+     #{sel_mail},#{sel_do},#{sel_p1},#{sel_p2},#{sel_p3},#{sel_post},
+     sysdate,null,#{sel_n1},#{sel_n2},0,#{sel_pic,jdbcType=VARCHAR},
+     #{sel_addr1},#{sel_addr2})
+    </insert>
+
+   
+   
+</mapper>
+
+
+
+
+
+
+
+

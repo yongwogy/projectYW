@@ -1,0 +1,139 @@
+@charset "UTF-8";
+
+
+/* 상품 및 객실 입력페이지 */
+.insert_ss{
+	border-radius:20px;
+	background-color:white;
+	width:80%;
+	margin-left:10%;
+	padding:10px 0 10px 0;
+}
+.yw_under{
+	
+
+	border: 2px solid #7F4E46;
+}
+
+.yw_table{
+	margin-left:50px;
+	margin-right:50px;
+	
+}
+
+td{
+	width:120px;
+}
+
+.bt-deco{
+	color: white;
+	background: #7F4E46;
+	border-radius: 10px;
+}
+
+.bt-deco1{
+	color: white;
+	background: red;
+	border-radius: 10px;
+}
+.bt-deco2{
+	color: white;
+	background: green;
+	border-radius: 10px;
+}
+
+
+/* 상품삭제창 */
+
+.prodel_contain{
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
+}
+
+.sel_ps{
+	font-weight: bold;
+}
+
+.round_p{
+	border-radius: 20px;
+	border: 1px solid red;
+	height: 25px;
+	width: 150px;
+}
+
+.warn_text{
+	font-size: 12px;
+	color: red;
+	font-weight: bold;
+}
+
+/* 판매자 목록 뷰페이지 */
+
+
+
+hr{
+	color: #7F4E46;
+}
+
+.yw_listdiv{
+	margin-left: 40px;
+	margin-right: 40px;
+}
+
+#prolist_ra{
+	border-radius: 30px;
+
+}
+
+#pics{
+	border-bottom-left-radius: 30px;
+	border-top-left-radius: 30px;
+}
+
+#proname{
+	font-weight: bold;
+}
+#proaddr{
+	color: #808080;
+}
+
+#rmsize{
+	font-size: 12px;
+	float: left;
+	color: #0000ff;
+}
+
+#resize{
+	font-size: 15px;
+	font-weight: bold;
+	float: left;
+	position: absolute;
+}
+#revsize{
+	font-size: 12px;
+	float: left;
+	
+}
+#revsize_ch{
+	font-weight: bold;
+	color: red;
+}
+
+#frisize{
+	font-weight : bold;
+	float: right;
+	color: orange;
+	font-size: 24px;
+}
+
+.stop_sal{
+	font-weight: bold;
+	color: red;
+	float: right;
+	font-size: 20px;
+}
+
+#fil_pic{
+	opacity: 0.4;
+}

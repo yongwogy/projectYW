@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="member">
+	<!-- 01. 회원록록 -->
+	<select id="memberList" resultType="model.Member">
+		SELECT 
+		  mem_id AS mem_id, 
+		  mem_pw AS mem_pw,
+		  mem_name AS mem_name,
+		  mem_bir AS mem_bir
+		  mem_mail AS mem_mail,
+		  mem_do AS mem_do,
+		  mem_p1 AS mem_p1,
+		  mem_p2 AS mem_p2,
+		  mem_p3 AS mem_p3,
+		  mem_post AS mem_post,
+		  men_addr AS mem_addr,
+		  mem_gen AS mem_gen,
+		  mem_joind AS mem_joind,
+		  mem_g AS mem_g,
+		  mem_s AS mem_s,
+		  mem_pic AS mem_pic
+		FROM member
+		ORDER BY mem_id
+	</select>
+	
+	<!-- 02. 회원 등록 -->
+	<insert id="insertMember">
+		INSERT INTO member
+			(mem_id, mem_pw, mem_name, mem_bir, mem_mail, mem_do, mem_p1, mem_p2, mem_p3,
+			 mem_post, men_addr, mem_gen, mem_joind, mem_g, mem_s, mem_pic)
+		VALUES 
+			(#{mem_id}, #{mem_pw}, #{mem_name}, #{mem_bir}, #{mem_mail}, #{mem_do}, #{mem_p1}, 
+			 #{mem_p2}, #{mem_p3}, #{mem_post}, #{men_addr}, #{mem_gen}, #{mem_joind},
+			 #{mem_g}, #{mem_s}, #{mem_pic})	
+	</insert>
+	
+	<!-- 03. 회원정보 상세조회 -->
+	<select id="viewMember" resultType="model.Member">
+		SELECT 
+		  mem_id AS mem_id, 
+		  mem_pw AS mem_pw,
+		  mem_name AS mem_name,
+		  mem_bir AS mem_bir
+		  mem_mail AS mem_mail,
+		  mem_do AS mem_do,
+		  mem_p1 AS mem_p1,
+		  mem_p2 AS mem_p2,
+		  mem_p3 AS mem_p3,
+		  mem_post AS mem_post,
+		  men_addr AS mem_addr,
+		  mem_gen AS mem_gen,
+		  mem_joind AS mem_joind,
+		  mem_g AS mem_g,
+		  mem_s AS mem_s,
+		  mem_pic AS mem_pic
+		FROM member
+		WHERE mem_id = #{mem_id}
+	</select>
+	
+	<!-- 04. 회원정보 수정처리 -->
+	<update id="updateMember">
+		UPDATE member
+		SET
+			user_pw = #{userPw},
+			user_name = #{userName},
+			user_email = #{userEmail},
+			user_updatedate = SYSDATE
+		WHERE
+			user_id = #{userId}	
+	</update>
+	
+	<!-- 05. 회원정보 삭제 처리 -->
+	<delete id="deleteMember">
+		DELETE FROM tbl_member
+		WHERE user_id = #{userId}
+	</delete>
+	
+	<!-- 06. 비밀번호 체크 -->
+	<select id="checkPw" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM tbl_member
+		WHERE user_id = #{userId} AND user_pw = #{userPw}
+	</select>
+</mapper>

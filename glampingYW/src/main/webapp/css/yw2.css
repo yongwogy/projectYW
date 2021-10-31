@@ -1,0 +1,149 @@
+@charset "UTF-8";
+
+
+
+/* 예약전 페이지 */
+.backwhite{
+	border-radius:20px;
+	background-color:white;
+	width:80%;
+	margin-left:10%;
+	padding:10px 0 10px 0;
+	border: 3px solid #80ffff;
+}
+
+.backwhite2{
+	border-radius:20px;
+	background-color:#ececec;
+	width:90%;
+	padding:10px 0 10px 0;
+}
+
+.no_res{
+	padding-top: 80px;
+	font-size: 30px;
+	color: #808080;
+	height: 200px;
+}
+
+
+.backwhite_borred{
+	border-radius:20px;
+	background-color:white;
+	width:80%;
+	margin-left:10%;
+	padding:10px 0 10px 0;
+	border: 3px solid red;
+}
+
+.backwhite_empty{
+	border-radius:20px;
+	background-color:white;
+	width:80%;
+	height:60%;
+	margin-left:10%;
+	padding:10px 0 10px 0;
+	border: 3px solid red;
+}
+
+#le{
+	margin-left:5%;
+}
+
+#font_w{
+	font-weight: bold;
+	font-size: 20px;
+}
+#res_t{
+	font-weight: bold;
+	font-size: 30px;
+}
+#res_tred{
+	font-weight: bold;
+	font-size: 24px;
+	color: red;
+}
+
+
+#ckb{
+	font-weight: bold;
+	font-size: 14px;
+	color: blue; 
+}
+#ckr{
+	font-weight: bold;
+	font-size: 14px;
+	color: red; 
+}
+#ckg{
+	font-weight: bold;
+	font-size: 14px;
+	color: green; 
+}
+#ri{
+	float: right;
+	margin-right:5%;
+	font-size: 20px;
+	font-weight: bold;
+	color: #fda502;
+}
+
+#pic{
+	width:95%;
+}
+
+#round{
+	border-radius: 20px;
+}
+
+#round_none{
+	margin-left:20%;
+	margin-right: 20%;
+	padding-top: 30px;
+	width: 370%;
+	border-radius: 20px;
+	font-size: 20px;
+	font-weight: bold;
+	color: fuchsia;
+}
+
+.bt-deco{
+	color: white;
+	background: #7F4E46;
+	border-radius: 10px;
+}
+
+.bt-deco1{
+	color: white;
+	background: red;
+	border-radius: 10px;
+}
+
+.bt-deco2{
+	color: white;
+	background: #008000;
+	border-radius: 10px;
+}
+
+#res_name{
+	border-radius: 10px;
+}
+#res_p1{
+	border-radius: 10px;
+}
+#res_p2{
+	border-radius: 10px;
+}
+#res_p3{
+	border-radius: 10px;
+}
+
+#round_fur{
+	border-radius: 20px;
+	opacity: 0.4;
+}
+
+#round_imblack{
+	border-radius: 20px;
+	filter: grayscale(100%);
+}

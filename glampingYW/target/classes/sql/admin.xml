@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="admins">
+    
+    <!-- 일반회원 리스트 -->
+    <select id="getmemlist" resultType="member">
+     	select * from member
+    </select>
+   
+    <!-- 판매자회원 리스트 -->
+    <select id="getsellist" resultType="seller">
+     	select * from seller
+    </select>
+   
+    <!-- 일반회원 승인 -->
+ 	<update id="appmember" parameterType="String">
+ 		update member set mem_s = 1 where mem_id = #{mem_id}
+ 	</update>
+ 	
+ 	<!-- 일반회원 탈퇴 -->
+ 	<update id="banmember" parameterType="String">
+ 		update member set mem_s = 2 where mem_id = #{mem_id}
+ 	</update>
+ 	
+    <!-- 판매자 승인 -->
+ 	<update id="appseller" parameterType="String">
+ 		update Seller set sel_joind = sysdate, sel_s = 1 where sel_id = #{sel_id}
+ 	</update>
+ 	
+ 	<!-- 판매자 탈퇴 -->
+ 	<update id="banseller" parameterType="String">
+ 		update Seller set sel_joind = sysdate, sel_s = 2 where sel_id = #{sel_id}
+ 	</update>
+ 	
+ 	<!-- 모든 product 리스트 -->
+    <select id="getallprolist" resultType="product">
+     	select * from product
+    </select>
+    
+    <!-- 상품 승인 -->
+ 	<update id="apppro" parameterType="int">
+ 		update Product set pro_joind = sysdate, pro_s = 1 where pro_no = #{pro_no}
+ 	</update>
+ 	
+ 	<!-- 상품 반려 -->
+ 	<update id="banpro" parameterType="int">
+ 		update Product set pro_s = 2 where pro_no = #{pro_no}
+ 	</update>
+ 	
+    <!-- 일반회원 리스트 rows -->
+    <select id="get_memList" parameterType="map" resultType="member">
+     select * from (select rownum rnum, member.* from (select * from member order by mem_joind desc) member) where <![CDATA[rnum >= #{startRow}]]> and <![CDATA[rnum <= #{endRow}]]>
+  	</select>
+  	
+    <!-- 판매자회원 리스트 rows -->
+    <select id="get_selList" parameterType="map" resultType="seller">
+     select * from (select rownum rnum, seller.* from (select * from seller order by sel_app desc) seller) where <![CDATA[rnum >= #{startRow}]]> and <![CDATA[rnum <= #{endRow}]]>
+  	</select>
+</mapper>
+
+
+
+
+
+
+
+

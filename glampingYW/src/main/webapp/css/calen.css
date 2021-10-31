@@ -1,0 +1,105 @@
+.calentable {
+	width: 100%;
+	border: 2px solid #00ffff;
+}
+
+.year_mon {
+	text-align: center;
+	font-size: 25px;
+	height: 50px;
+	background-color: #a1a1a1;
+}
+
+.monthmove1{
+	text-align: right;
+	height: 50px;
+	background-color: #a1a1a1;
+}
+.monthmove2{
+	text-align: left;
+	height: 50px;
+	background-color: #a1a1a1;
+}
+.monthmovebu{
+	color: white;
+	background: #7F4E46;
+	border-radius: 20px;
+}
+
+.days {
+	text-align: center;
+	height: 50px;
+	background-color: #c0c0c0;
+	border: 1px solid #e4e4e4;
+	font-size: 20px;
+}
+
+.tdy {
+	height: 150px;
+	background-color: #ffffff;
+	border: 1px solid #e4e4e4;
+	text-align: center;
+}
+.tdx {
+	height: 150px;
+	background-color: #f1fe01;
+}
+
+.datefont{
+	font-weight: bold;
+}
+
+.res_green{
+	color: green;
+}
+
+.res_red{
+	color: red;
+}
+
+.res_grey{
+	color: #808080;
+}
+
+.green_con{
+	margin-left: 10px;
+	font-size: 10px;
+	color: white;
+	background: green;
+	border: 1px solid #000000;
+	border-radius : 10px;
+}
+
+.red_con{
+	margin-left: 10px;
+	font-size: 10px;
+	color: white;
+	background: red;
+	border: 1px solid #000000;
+	border-radius : 10px;
+}
+
+.grey_con{
+	margin-left: 10px;
+	font-size: 10px;
+	color: white;
+	background: #000000;
+	border: 1px solid #c0c0c0;
+	border-radius : 10px;
+}
+
+.count_del_no{
+	color: red;
+	font-weight: bold;
+	font-size: 24px;
+}
+
+.bt_dels{
+	color: white;
+	background: #804040;
+	border-radius: 10px;
+}
+
+.colToday {
+	background-color: #baf9fa;
+}

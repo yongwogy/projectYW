@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="reservations">
+ 
+	<!-- 예약등록 -->
+	<insert id="resinsertdo" parameterType="reservation">
+	insert into reservation(res_no,res_ckin,res_ckout,res_s,mem_id,res_name,res_p1,res_p2,res_p3,res_pno,res_price,res_tname,rm_no,pro_no)
+	 values(reservation_seq1.nextval, #{res_ckin}, #{res_ckout}, 1, #{mem_id}, #{res_name}, #{res_p1}, #{res_p2}, #{res_p3}, #{res_pno}, #{res_price}, #{res_tname}, #{rm_no}, #{pro_no})
+	</insert>
+ 	
+ 	<!-- reslist 불러오기 -->
+	<select id="getreslist" parameterType="int" resultType="reservation">
+    select * from reservation where rm_no=#{rm_no} and <![CDATA[res_s < 3]]>
+    </select>
+ 	
+ 	<!-- reslist 불러오기 -->
+	<select id="getmyreslist" parameterType="string" resultType="reservation">
+    select * from reservation where mem_id=#{mem_id} and <![CDATA[res_s < 3]]> order by res_no desc
+    </select>
+    
+    <!-- 예약취소 신청-->
+ 	<update id="delreserve" parameterType="int">
+ 	update reservation set res_s = 2 where res_no = #{res_no}
+ 	</update>
+    
+   	<!-- reslist 불러오기 리뷰 처음입력시 res_no연결-->
+	<select id="getmyproreslist" parameterType="reservation" resultType="reservation">
+    select * from reservation where mem_id=#{mem_id} and pro_no=#{pro_no} and <![CDATA[res_s < 2]]>
+    </select>
+    
+   	<!-- reslist 불러오기2 리뷰 입력시 리뷰가 연결된 res_no를 제외한 res_no연결-->
+	<select id="getmyproreslist2" parameterType="reservation" resultType="reservation">
+    select * from reservation where res_no NOT IN (select reservation.res_no from reservation,review where reservation.res_no = review.res_no) 
+    and mem_id=#{mem_id} and pro_no=#{pro_no} and <![CDATA[res_s < 2]]>
+    </select>
+    
+   	<!-- reslist 불러오기 캘린더용 + 상품 완전삭제 전 -->
+	<select id="getreslist_pro" parameterType="int" resultType="reservation">
+    select * from reservation where pro_no=#{pro_no} and <![CDATA[res_s < 3]]>
+    </select>
+    
+   	<!-- res_no으로 고객 예약정보 1개 불러오기-->
+	<select id="resdetailone" parameterType="int" resultType="reservation">
+    select * from reservation where res_no=#{res_no} and <![CDATA[res_s < 3]]>
+    </select>
+       
+    <!-- 체크인날짜 지난 예약항목 상태값 0으로 변경 -->
+ 	<update id="update_res_s" parameterType="string">
+ 	update reservation set res_s = 0 where res_no IN 
+ 	(select a.res_no from reservation a where <![CDATA[a.res_ckin <= TO_CHAR(sysdate, 'YYYY-MM-DD')]]> and a.mem_id = #{mem_id} and a.res_s = 1)
+ 	</update>
+   
+   	<!-- 취소신청한 예약리스트 불러오기(각 상품당) -->
+	<select id="getdelreslist" parameterType="int" resultType="reservation">
+    select * from reservation where pro_no=#{pro_no} and res_s = 2
+    </select>
+   
+    <!-- 에약취소신청 거부-->
+ 	<update id="return_reserve" parameterType="int">
+ 	update reservation set res_s = 1 where res_no = #{res_no} and res_s = 2
+ 	</update>
+    
+    <!-- 예약 완전삭제 -->
+   	<select id="terminate_reserve" parameterType="int">
+ 	delete from reservation where res_no = #{res_no}
+ 	</select>
+    
+    <!-- 체크인날짜 지난 예약항목 상태값 0으로 변경(판매자) -->
+ 	<update id="update_res_sp" parameterType="int">
+ 	update reservation set res_s = 0 where res_no IN 
+ 	(select a.res_no from reservation a where <![CDATA[a.res_ckin <= TO_CHAR(sysdate, 'YYYY-MM-DD')]]> and a.pro_no = #{pro_no} and a.res_s = 1)
+ 	</update>
+    
+    <!-- 상품삭제시 예약삭제 -->
+   	<select id="delete_proreservation" parameterType="int">
+ 	delete from reservation where pro_no = #{pro_no}
+ 	</select>
+    
+</mapper>
